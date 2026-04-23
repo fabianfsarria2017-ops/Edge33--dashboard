@@ -1,0 +1,348 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;500;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0c0f;--surface:#111419;--surface2:#181d24;--border:#1e252f;--border2:#2a3340;
+--green:#00d68f;--green2:#00a86b;--red:#ff4d6a;--amber:#f5a623;--blue:#4d9fff;
+--text:#e8edf5;--muted:#5a6a7e;--mono:'IBM Plex Mono',monospace;--sans:'Syne',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+.header{padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:15px;font-weight:800;letter-spacing:.08em;color:var(--green)}
+.logo span{color:var(--muted);font-weight:400}
+.tabs{display:flex;gap:2px;background:var(--surface);border-radius:8px;padding:3px}
+.tab{font-size:11px;font-weight:600;letter-spacing:.06em;padding:5px 14px;border-radius:6px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all .15s}
+.tab.active{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.metrics-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.metric{background:var(--surface);padding:.875rem 1rem}
+.metric-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+.metric-val{font-family:var(--mono);font-size:18px;font-weight:600}
+.metric-sub{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+.green{color:var(--green)} .red{color:var(--red)} .amber{color:var(--amber)} .blue{color:var(--blue)} .neutral{color:var(--text)}
+.page{display:none;padding:1.25rem 1.5rem}
+.page.active{display:block}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.875rem}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem;margin-bottom:1rem}
+.field{}
+.field label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
+.field input,.field select{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:.5rem .75rem;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--green)}
+.field select option{background:var(--surface2)}
+.add-btn{background:var(--green);color:#000;border:none;border-radius:6px;padding:.6rem 1.5rem;font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.06em;cursor:pointer;transition:opacity .15s}
+.add-btn:hover{opacity:.85}
+.clear-btn{background:transparent;color:var(--muted);border:1px solid var(--border2);border-radius:6px;padding:.6rem 1rem;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;margin-left:.5rem}
+.table-wrap{overflow-x:auto;margin-top:1.25rem}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+thead th{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--border2);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:hover{background:var(--surface)}
+td{padding:.6rem .75rem;color:var(--text);white-space:nowrap}
+.del-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;transition:color .15s}
+.del-btn:hover{color:var(--red)}
+.badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.04em}
+.badge-long{background:rgba(0,214,143,.15);color:var(--green)}
+.badge-short{background:rgba(255,77,106,.15);color:var(--red)}
+.badge-win{background:rgba(0,214,143,.12);color:var(--green)}
+.badge-loss{background:rgba(255,77,106,.12);color:var(--red)}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem}
+.chart-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.875rem}
+.chart-full{grid-column:1/-1}
+.empty{text-align:center;padding:3rem;color:var(--muted);font-size:13px}
+.verdict-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1rem}
+.verdict-title{font-size:13px;font-weight:700;margin-bottom:.5rem}
+.verdict-body{font-size:12px;color:var(--muted);line-height:1.7}
+.meter-row{display:flex;align-items:center;gap:10px;margin-bottom:.5rem}
+.meter-lbl{font-size:11px;color:var(--muted);min-width:100px;font-family:var(--mono)}
+.meter-bg{flex:1;height:5px;background:var(--border2);border-radius:99px;overflow:hidden}
+.meter-fill{height:100%;border-radius:99px;transition:width .5s}
+.meter-val{font-size:11px;font-weight:600;min-width:44px;text-align:right;font-family:var(--mono)}
+.score-ring{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
+.ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;font-family:var(--mono)}
+</style>
+
+<div class="header">
+  <div class="logo">EDGE<span>TRACKER</span></div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('log')">Registro</button>
+    <button class="tab" onclick="switchTab('charts')">Gráficas</button>
+    <button class="tab" onclick="switchTab('analysis')">Análisis</button>
+  </div>
+</div>
+
+<div class="metrics-bar">
+  <div class="metric"><div class="metric-lbl">P&amp;L Total</div><div class="metric-val" id="m-pnl">$0</div><div class="metric-sub" id="m-pnl-pct">0.00%</div></div>
+  <div class="metric"><div class="metric-lbl">Win Rate</div><div class="metric-val" id="m-wr">—</div><div class="metric-sub" id="m-wr-ops">0 ops</div></div>
+  <div class="metric"><div class="metric-lbl">Profit Factor</div><div class="metric-val" id="m-pf">—</div><div class="metric-sub">ganancias/pérdidas</div></div>
+  <div class="metric"><div class="metric-lbl">R:R Promedio</div><div class="metric-val" id="m-rr">—</div><div class="metric-sub">real por operación</div></div>
+  <div class="metric"><div class="metric-lbl">Max Drawdown</div><div class="metric-val red" id="m-dd">—</div><div class="metric-sub" id="m-dd-usd">—</div></div>
+  <div class="metric"><div class="metric-lbl">Sharpe Est.</div><div class="metric-val" id="m-sh">—</div><div class="metric-sub">retorno/volatilidad</div></div>
+</div>
+
+<div class="page active" id="tab-log">
+  <div class="section-label">Nueva operación</div>
+  <div class="form-grid">
+    <div class="field"><label>Fecha</label><input type="date" id="f-date"></div>
+    <div class="field"><label>Activo</label><input type="text" id="f-symbol" placeholder="BTC, AAPL..."></div>
+    <div class="field"><label>Dirección</label><select id="f-dir"><option value="long">Long</option><option value="short">Short</option></select></div>
+    <div class="field"><label>Entrada ($)</label><input type="number" id="f-entry" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Salida ($)</label><input type="number" id="f-exit" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Stop loss ($)</label><input type="number" id="f-sl" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Take profit ($)</label><input type="number" id="f-tp" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Tamaño pos. ($)</label><input type="number" id="f-size" placeholder="1000" step="1"></div>
+    <div class="field"><label>Comisión ($)</label><input type="number" id="f-comm" placeholder="0" step="0.01"></div>
+    <div class="field"><label>Estrategia</label><input type="text" id="f-strat" placeholder="Breakout, S/R..."></div>
+  </div>
+  <button class="add-btn" onclick="addTrade()">+ Agregar operación</button>
+  <button class="clear-btn" onclick="clearAll()">Limpiar todo</button>
+
+  <div class="table-wrap">
+    <table id="trades-table">
+      <thead><tr>
+        <th>#</th><th>Fecha</th><th>Activo</th><th>Dir.</th><th>Entrada</th><th>Salida</th>
+        <th>P&amp;L $</th><th>P&amp;L %</th><th>RR Real</th><th>Resultado</th><th>Estrategia</th><th></th>
+      </tr></thead>
+      <tbody id="trades-body"><tr><td colspan="12" class="empty">Agrega tu primera operación para comenzar</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page" id="tab-charts">
+  <div class="charts-grid">
+    <div class="chart-card chart-full"><div class="chart-title">Curva de equity</div><div style="position:relative;height:220px"><canvas id="c-equity" role="img" aria-label="Curva de equity acumulada">Curva de equity acumulada de todas las operaciones.</canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Distribución de resultados</div><div style="position:relative;height:180px"><canvas id="c-dist" role="img" aria-label="Distribución de ganancias y pérdidas">Distribución de P&L por operación.</canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Win rate por estrategia</div><div style="position:relative;height:180px"><canvas id="c-strat" role="img" aria-label="Win rate agrupado por estrategia">Win rate por estrategia.</canvas></div></div>
+    <div class="chart-card"><div class="chart-title">P&amp;L por día de semana</div><div style="position:relative;height:180px"><canvas id="c-dow" role="img" aria-label="P&L promedio por día de la semana">P&L promedio por día de la semana.</canvas></div></div>
+    <div class="chart-card"><div class="chart-title">Racha de trades (W/L)</div><div style="position:relative;height:180px"><canvas id="c-streak" role="img" aria-label="Serie de operaciones ganadoras y perdedoras">Racha de operaciones.</canvas></div></div>
+  </div>
+</div>
+
+<div class="page" id="tab-analysis">
+  <div id="analysis-content"><div class="empty">Agrega al menos 5 operaciones para ver el análisis completo</div></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let trades=[];
+let charts={};
+const COLORS={green:'#00d68f',red:'#ff4d6a',amber:'#f5a623',blue:'#4d9fff',muted:'#5a6a7e'};
+
+document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+
+function switchTab(t){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelectorAll('.tab').forEach(b=>{if(b.textContent.toLowerCase().includes(t==='log'?'regis':t==='charts'?'gráf':'anál'))b.classList.add('active')});
+  if(t==='charts') renderCharts();
+  if(t==='analysis') renderAnalysis();
+}
+
+function addTrade(){
+  const v=id=>document.getElementById(id).value;
+  const n=id=>parseFloat(document.getElementById(id).value)||0;
+  if(!v('f-symbol')||!n('f-entry')||!n('f-exit')){alert('Completa al menos: activo, entrada y salida');return}
+  const entry=n('f-entry'),exit=n('f-exit'),sl=n('f-sl'),tp=n('f-tp'),size=n('f-size')||1000,comm=n('f-comm'),dir=v('f-dir');
+  const rawPnl=dir==='long'?(exit-entry)/entry*size:(entry-exit)/entry*size;
+  const pnl=rawPnl-comm;
+  const pnlPct=pnl/size*100;
+  let rrReal=null;
+  if(sl&&sl!==entry){
+    const risk=Math.abs(entry-sl)/entry*size;
+    const gain=Math.abs(pnl);
+    rrReal=pnl>=0?gain/risk:-gain/risk;
+  }
+  trades.push({id:Date.now(),date:v('f-date'),symbol:v('f-symbol').toUpperCase(),dir,entry,exit,sl,tp,size,comm,pnl,pnlPct,rrReal,strat:v('f-strat')||'—',win:pnl>0});
+  clearForm();renderTable();updateMetrics();
+}
+
+function clearForm(){
+  ['f-symbol','f-entry','f-exit','f-sl','f-tp','f-comm','f-strat'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-size').value='';
+  document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+}
+
+function clearAll(){if(confirm('¿Eliminar todas las operaciones?')){trades=[];renderTable();updateMetrics()}}
+
+function deleteTrade(id){trades=trades.filter(t=>t.id!==id);renderTable();updateMetrics()}
+
+function fmt(n,d=2){return (n>=0?'+':'')+n.toFixed(d)}
+function fmtUSD(n){return (n>=0?'+$':'-$')+Math.abs(n).toFixed(2)}
+function cl(n){return n>0?'green':n<0?'red':'neutral'}
+
+function renderTable(){
+  const body=document.getElementById('trades-body');
+  if(!trades.length){body.innerHTML='<tr><td colspan="12" class="empty">Agrega tu primera operación para comenzar</td></tr>';return}
+  body.innerHTML=trades.map((t,i)=>`
+    <tr>
+      <td style="color:var(--muted)">${i+1}</td>
+      <td style="color:var(--muted)">${t.date}</td>
+      <td style="font-weight:600">${t.symbol}</td>
+      <td><span class="badge badge-${t.dir}">${t.dir.toUpperCase()}</span></td>
+      <td>$${t.entry.toFixed(4)}</td>
+      <td>$${t.exit.toFixed(4)}</td>
+      <td class="${cl(t.pnl)}" style="font-weight:600">${fmtUSD(t.pnl)}</td>
+      <td class="${cl(t.pnlPct)}">${fmt(t.pnlPct)}%</td>
+      <td class="${t.rrReal!==null?cl(t.rrReal):'neutral'}">${t.rrReal!==null?fmt(t.rrReal,2)+'R':'—'}</td>
+      <td><span class="badge badge-${t.win?'win':'loss'}">${t.win?'WIN':'LOSS'}</span></td>
+      <td style="color:var(--muted);font-size:11px">${t.strat}</td>
+      <td><button class="del-btn" onclick="deleteTrade(${t.id})">×</button></td>
+    </tr>`).join('');
+}
+
+function updateMetrics(){
+  if(!trades.length){
+    ['m-pnl','m-wr','m-pf','m-rr','m-dd','m-sh'].forEach(id=>{
+      const el=document.getElementById(id);
+      el.textContent='—';el.className='metric-val';
+    });
+    document.getElementById('m-pnl-pct').textContent='0.00%';
+    document.getElementById('m-wr-ops').textContent='0 ops';
+    document.getElementById('m-dd-usd').textContent='—';
+    return;
+  }
+  const wins=trades.filter(t=>t.win);
+  const losses=trades.filter(t=>!t.win);
+  const totalPnl=trades.reduce((a,t)=>a+t.pnl,0);
+  const totalSize=trades[0]?.size||1000;
+  const wr=wins.length/trades.length*100;
+  const grossWin=wins.reduce((a,t)=>a+t.pnl,0);
+  const grossLoss=Math.abs(losses.reduce((a,t)=>a+t.pnl,0));
+  const pf=grossLoss>0?grossWin/grossLoss:wins.length?999:0;
+  const rrTrades=trades.filter(t=>t.rrReal!==null);
+  const avgRR=rrTrades.length?rrTrades.reduce((a,t)=>a+t.rrReal,0)/rrTrades.length:null;
+  let peak=0,equity=0,maxDD=0;
+  trades.forEach(t=>{equity+=t.pnl;if(equity>peak)peak=equity;const dd=peak-equity;if(dd>maxDD)maxDD=dd});
+  const maxDDpct=peak>0?maxDD/peak*100:0;
+  const returns=trades.map(t=>t.pnlPct);
+  const mean=returns.reduce((a,v)=>a+v,0)/returns.length;
+  const std=Math.sqrt(returns.reduce((a,v)=>a+(v-mean)**2,0)/returns.length)||0.001;
+  const sharpe=(mean/std)*Math.sqrt(252/trades.length*trades.length);
+  const el=id=>document.getElementById(id);
+  el('m-pnl').textContent=fmtUSD(totalPnl).replace('+','');
+  el('m-pnl').className='metric-val '+(totalPnl>=0?'green':'red');
+  el('m-pnl-pct').textContent=fmt(totalPnl/totalSize*100)+'%';
+  el('m-wr').textContent=wr.toFixed(1)+'%';
+  el('m-wr').className='metric-val '+(wr>=50?'green':'red');
+  el('m-wr-ops').textContent=`${wins.length}W / ${losses.length}L`;
+  el('m-pf').textContent=pf>=999?'>10':pf.toFixed(2);
+  el('m-pf').className='metric-val '+(pf>=1.5?'green':pf>=1?'amber':'red');
+  el('m-rr').textContent=avgRR!==null?avgRR.toFixed(2)+'R':'—';
+  el('m-rr').className='metric-val '+(avgRR>=1.5?'green':avgRR>=1?'amber':avgRR!==null?'red':'neutral');
+  el('m-dd').textContent=maxDDpct.toFixed(1)+'%';
+  el('m-dd').className='metric-val '+(maxDDpct<=10?'green':maxDDpct<=25?'amber':'red');
+  el('m-dd-usd').textContent='-$'+maxDD.toFixed(2);
+  el('m-sh').textContent=isFinite(sharpe)?sharpe.toFixed(2):'—';
+  el('m-sh').className='metric-val '+(sharpe>=1.5?'green':sharpe>=0.8?'amber':sharpe<0.8&&isFinite(sharpe)?'red':'neutral');
+}
+
+function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id]}}
+
+function renderCharts(){
+  if(!trades.length){['c-equity','c-dist','c-strat','c-dow','c-streak'].forEach(id=>{destroyChart(id);const ctx=document.getElementById(id).getContext('2d');ctx.clearRect(0,0,999,999)});return}
+  const baseOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:COLORS.muted,font:{size:10,family:"'IBM Plex Mono'"}},grid:{color:'rgba(30,37,47,.8)'}},y:{ticks:{color:COLORS.muted,font:{size:10,family:"'IBM Plex Mono'"}},grid:{color:'rgba(30,37,47,.8)'}}}};
+
+  destroyChart('equity');
+  let cum=0;const eqData=trades.map(t=>{cum+=t.pnl;return parseFloat(cum.toFixed(2))});
+  charts.equity=new Chart(document.getElementById('c-equity'),{type:'line',data:{labels:trades.map((_,i)=>i+1),datasets:[{data:eqData,borderColor:cum>=0?COLORS.green:COLORS.red,backgroundColor:cum>=0?'rgba(0,214,143,.06)':'rgba(255,77,106,.06)',borderWidth:2,pointRadius:2,pointBackgroundColor:cum>=0?COLORS.green:COLORS.red,tension:.3,fill:true}]},options:{...baseOpts,plugins:{legend:{display:false}}}});
+
+  destroyChart('dist');
+  const bins=[-500,-200,-100,-50,-20,0,20,50,100,200,500];
+  const counts=new Array(bins.length-1).fill(0);
+  trades.forEach(t=>{for(let i=0;i<bins.length-1;i++)if(t.pnl>=bins[i]&&t.pnl<bins[i+1]){counts[i]++;break}});
+  charts.dist=new Chart(document.getElementById('c-dist'),{type:'bar',data:{labels:bins.slice(0,-1).map((b,i)=>`${b}→${bins[i+1]}`),datasets:[{data:counts,backgroundColor:bins.slice(0,-1).map(b=>b>=0?COLORS.green+'99':COLORS.red+'99'),borderWidth:0,borderRadius:3}]},options:{...baseOpts,scales:{x:{ticks:{color:COLORS.muted,font:{size:9},maxRotation:45},grid:{color:'rgba(30,37,47,.8)'}},y:{ticks:{color:COLORS.muted,font:{size:10}},grid:{color:'rgba(30,37,47,.8)'}}}}});
+
+  destroyChart('strat');
+  const stratMap={};trades.forEach(t=>{if(!stratMap[t.strat])stratMap[t.strat]={w:0,total:0};stratMap[t.strat].total++;if(t.win)stratMap[t.strat].w++});
+  const stratKeys=Object.keys(stratMap).filter(k=>k!=='—');
+  if(stratKeys.length){charts.strat=new Chart(document.getElementById('c-strat'),{type:'bar',data:{labels:stratKeys,datasets:[{data:stratKeys.map(k=>(stratMap[k].w/stratMap[k].total*100).toFixed(1)),backgroundColor:stratKeys.map(k=>(stratMap[k].w/stratMap[k].total)>=.5?COLORS.green+'99':COLORS.red+'99'),borderWidth:0,borderRadius:3}]},options:{...baseOpts,scales:{x:{ticks:{color:COLORS.muted,font:{size:10}},grid:{color:'rgba(30,37,47,.8)'}},y:{ticks:{callback:v=>v+'%',color:COLORS.muted,font:{size:10}},grid:{color:'rgba(30,37,47,.8)'},min:0,max:100}}}})}
+
+  destroyChart('dow');
+  const days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const dowMap=Array(7).fill(null).map(()=>({sum:0,count:0}));
+  trades.forEach(t=>{if(t.date){const d=new Date(t.date+'T12:00:00').getDay();dowMap[d].sum+=t.pnl;dowMap[d].count++}});
+  const dowAvg=dowMap.map(d=>d.count?parseFloat((d.sum/d.count).toFixed(2)):null);
+  charts.dow=new Chart(document.getElementById('c-dow'),{type:'bar',data:{labels:days,datasets:[{data:dowAvg,backgroundColor:dowAvg.map(v=>v===null?COLORS.muted+'44':v>=0?COLORS.green+'99':COLORS.red+'99'),borderWidth:0,borderRadius:3}]},options:{...baseOpts}});
+
+  destroyChart('streak');
+  charts.streak=new Chart(document.getElementById('c-streak'),{type:'bar',data:{labels:trades.map((_,i)=>i+1),datasets:[{data:trades.map(t=>parseFloat(t.pnl.toFixed(2))),backgroundColor:trades.map(t=>t.win?COLORS.green+'99':COLORS.red+'99'),borderWidth:0,borderRadius:2}]},options:{...baseOpts}});
+}
+
+function renderAnalysis(){
+  const cont=document.getElementById('analysis-content');
+  if(trades.length<5){cont.innerHTML='<div class="empty">Agrega al menos 5 operaciones para ver el análisis completo</div>';return}
+  const wins=trades.filter(t=>t.win),losses=trades.filter(t=>!t.win);
+  const wr=wins.length/trades.length*100;
+  const grossWin=wins.reduce((a,t)=>a+t.pnl,0);
+  const grossLoss=Math.abs(losses.reduce((a,t)=>a+t.pnl,0));
+  const pf=grossLoss>0?grossWin/grossLoss:999;
+  const rrTrades=trades.filter(t=>t.rrReal!==null);
+  const avgRR=rrTrades.length?rrTrades.reduce((a,t)=>a+t.rrReal,0)/rrTrades.length:1;
+  const minWR=1/(1+avgRR)*100;
+  let peak=0,equity=0,maxDD=0;
+  trades.forEach(t=>{equity+=t.pnl;if(equity>peak)peak=equity;const dd=peak-equity;if(dd>maxDD)maxDD=dd});
+  const maxDDpct=peak>0?maxDD/peak*100:0;
+  const returns=trades.map(t=>t.pnlPct);
+  const mean=returns.reduce((a,v)=>a+v,0)/returns.length;
+  const std=Math.sqrt(returns.reduce((a,v)=>a+(v-mean)**2,0)/returns.length)||0.001;
+  const sharpe=(mean/std)*Math.sqrt(trades.length);
+  const ev=wr/100*avgRR-(1-wr/100);
+  const score=[wr>=minWR,pf>=1.5,sharpe>=1,maxDDpct<=20,ev>0].filter(Boolean).length;
+  const scoreColor=score>=4?COLORS.green:score>=3?COLORS.amber:COLORS.red;
+  const scoreLabel=score>=4?'Sistema sólido':score>=3?'Sistema marginal':'Sin edge claro';
+
+  const meter=(lbl,val,max,color,suffix='')=>`<div class="meter-row"><span class="meter-lbl">${lbl}</span><div class="meter-bg"><div class="meter-fill" style="width:${Math.min(100,Math.abs(val)/max*100).toFixed(1)}%;background:${color}"></div></div><span class="meter-val" style="color:${color}">${typeof val==='number'?val.toFixed(2):val}${suffix}</span></div>`;
+
+  cont.innerHTML=`
+  <div class="verdict-card">
+    <div class="score-ring">
+      <div class="ring-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="32" fill="none" stroke="#1e252f" stroke-width="6"/>
+          <circle cx="40" cy="40" r="32" fill="none" stroke="${scoreColor}" stroke-width="6" stroke-dasharray="${score/5*201} 201" stroke-dashoffset="50" stroke-linecap="round"/>
+        </svg>
+        <div class="ring-val" style="color:${scoreColor}">${score}/5</div>
+      </div>
+      <div>
+        <div class="verdict-title" style="color:${scoreColor}">${scoreLabel}</div>
+        <div class="verdict-body">${score>=4?'Tus métricas muestran ventaja estadística real y riesgo controlado. Enfócate en escalar con consistencia.':score>=3?'El sistema tiene señales positivas pero áreas que mejorar. El margen puede desaparecer con costos reales.':'Las métricas no confirman ventaja estadística. Revisar RR, win rate y gestión de riesgo antes de escalar.'}</div>
+      </div>
+    </div>
+    ${meter('Win Rate',wr,100,wr>=minWR?COLORS.green:COLORS.red,'%')}
+    ${meter('Profit Factor',pf,4,pf>=1.5?COLORS.green:pf>=1?COLORS.amber:COLORS.red,'')}
+    ${meter('Sharpe ratio',sharpe,3,sharpe>=1?COLORS.green:sharpe>=0.5?COLORS.amber:COLORS.red,'')}
+    ${meter('Max Drawdown',maxDDpct,60,maxDDpct<=15?COLORS.green:maxDDpct<=30?COLORS.amber:COLORS.red,'%')}
+    ${meter('Esperanza/op',ev+0.5,1,ev>0.1?COLORS.green:ev>0?COLORS.amber:COLORS.red,'')}
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+    <div class="verdict-card" style="margin:0">
+      <div class="section-label">Estadísticas detalladas</div>
+      ${[
+        ['Operaciones totales',trades.length,''],
+        ['Wins / Losses',`${wins.length} / ${losses.length}`,''],
+        ['Win rate mínimo req.',minWR.toFixed(1)+'%',''],
+        ['Ganancia media win','$'+(wins.length?grossWin/wins.length:0).toFixed(2),''],
+        ['Pérdida media loss','-$'+(losses.length?grossLoss/losses.length:0).toFixed(2),''],
+        ['RR promedio real',avgRR.toFixed(2)+'R',''],
+        ['Esperanza por op.','$'+(ev*(trades[0]?.size||1000)).toFixed(2),''],
+      ].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--muted)">${l}</span><span style="font-family:var(--mono);font-weight:600">${v}</span></div>`).join('')}
+    </div>
+    <div class="verdict-card" style="margin:0">
+      <div class="section-label">Alertas del sistema</div>
+      ${[
+        [wr<minWR,'Win rate por debajo del mínimo rentable para tu RR actual'],
+        [pf<1.25,'Profit factor marginal — los costos reales pueden hacerlo negativo'],
+        [maxDDpct>30,'Drawdown peligroso — riesgo de ruina psicológica y financiera'],
+        [sharpe<0.5,'Sharpe muy bajo — alta volatilidad relativa al retorno'],
+        [trades.length<30,'Muestra pequeña — resultados pueden ser aleatoriedad'],
+        [ev<=0,'Esperanza negativa — el sistema pierde dinero estructuralmente'],
+      ].filter(([cond])=>cond).map(([,msg])=>`<div style="display:flex;gap:8px;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:12px;align-items:flex-start"><span style="color:var(--red);flex-shrink:0;margin-top:1px">!</span><span style="color:var(--muted);line-height:1.5">${msg}</span></div>`).join('') || '<div style="color:var(--green);font-size:12px;padding:.5rem 0">Sin alertas críticas. Sistema dentro de parámetros saludables.</div>'}
+    </div>
+  </div>`;
+}
+
+updateMetrics();
+</script>
