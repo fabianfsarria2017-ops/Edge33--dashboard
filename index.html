@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -537,6 +536,60 @@
               </div>
               <div class="field">
                 <label>Estrategia</label>
+                <!-- ===== NUEVOS CAMPOS ===== -->
+
+<div class="field">
+  <label>Hora apertura</label>
+  <input id="horaApertura" type="time">
+</div>
+
+<div class="field">
+  <label>Hora cierre</label>
+  <input id="horaCierre" type="time">
+</div>
+
+<div class="field">
+  <label>Duración</label>
+  <input id="duracion" disabled>
+</div>
+
+<div class="field">
+  <label>SL (pips)</label>
+  <input id="slPips" type="number">
+</div>
+
+<div class="field">
+  <label>TP (pips)</label>
+  <input id="tpPips" type="number">
+</div>
+
+<div class="field">
+  <label>Contexto</label>
+  <select id="contexto">
+    <option value="">Seleccionar</option>
+    <option value="rango">Rango</option>
+    <option value="tendencia">Tendencia</option>
+  </select>
+</div>
+
+<div class="field">
+  <label># Operaciones</label>
+  <input id="cantidadOperaciones" type="number">
+</div>
+
+<div class="field">
+  <label>Resultado en R</label>
+  <input id="resultadoR" type="number" step="0.1">
+</div>
+
+<div class="field">
+  <label>Noticias</label>
+  <select id="noticias">
+    <option value="">Seleccionar</option>
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+  </select>
+</div>m
                 <input id="strategy" type="text" placeholder="Q33, Breakout, Liquidez..." />
               </div>
             </div>
@@ -673,7 +726,11 @@ function calcTrade(trade){
     riskPerUnit = stop - entry;
   }
   const totalRisk = Math.abs(riskPerUnit * size);
-  const r = totalRisk > 0 ? pnl / totalRisk : 0;
+ let r = totalRisk > 0 ? pnl / totalRisk : 0;
+
+if(trade.resultadoManual){
+  r = trade.resultadoManual;
+}
 
   return {
     ...trade,
@@ -946,6 +1003,22 @@ function refreshAll(){
 
 $("addBtn").addEventListener("click", ()=>{
   const trade = {
+    horaApertura: $("horaApertura").value,
+horaCierre: $("horaCierre").value,
+
+duracion: calcularDuracion(
+  $("horaApertura").value,
+  $("horaCierre").value
+),
+
+slPips: num($("slPips").value),
+tpPips: num($("tpPips").value),
+
+contexto: $("contexto").value,
+cantidadOperaciones: num($("cantidadOperaciones").value),
+
+noticias: $("noticias").value,
+resultadoManual: num($("resultadoR").value),
     date: $("date").value || todayStr(),
     asset: $("asset").value.trim(),
     direction: $("direction").value,
