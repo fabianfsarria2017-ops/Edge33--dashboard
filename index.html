@@ -46,9 +46,12 @@
       gap:12px;
     }
     .logo{
-      width:42px;height:42px;border-radius:12px;
-      background:radial-gradient(circle at 30% 30%, #33ffd6, #16b06c 55%, #0d7a51 100%);
-      box-shadow:0 0 25px rgba(30,234,138,.25), inset 0 0 12px rgba(255,255,255,.18);
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+  box-shadow:0 0 20px rgba(255,215,0,0.5);
+}
     }
     .brand h1{
       margin:0;
@@ -267,22 +270,21 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <h1>Edge33</h1>
-          <small>Bitácora de trading y métricas del sistema</small>
-        </div>
-      </div>
-      <div class="tabs">
-        <button class="tab active" data-tab="registro">Registro</button>
-        <button class="tab" data-tab="graficas">Gráficas</button>
-        <button class="tab" data-tab="analisis">Análisis</button>
+ <div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <img src="logo.png" class="logo" alt="Q33 Logo">
+      <div>
+        <h1>Edge33</h1>
+        <small>Bitácora de trading y métricas del sistema</small>
       </div>
     </div>
 
+    <div class="tabs">
+      <button class="tab active" data-tab="registro">Registro</button>
+      <button class="tab" data-tab="graficas">Gráficas</button>
+      <button class="tab" data-tab="analisis">Análisis</button>
+    </div>
     <div class="grid-metrics">
       <div class="card metric">
         <div class="label">P&amp;L Total</div>
