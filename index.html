@@ -426,13 +426,25 @@
     <main class="main">
       <div class="top-header">
         <h2>Dashboard</h2>
-        <div class="filters">
-          <button class="filter-pill">Filtros</button>
-          <button class="filter-pill">Rango de fechas</button>
-          <button class="filter-pill">Q33 · 0.5% por operación</button>
-        </div>
-      </div>
+       <div class="mensaje-pro">
+  Lo que no se mide, <span>No se puede mejorar.</span><br>
+  <small>Los datos crean traders rentables.</small>
+</div>
+.mensaje-pro{
+  text-align:center;
+  font-size:18px;
+  font-weight:600;
+  margin:20px 0;
+  padding:15px;
+  border-radius:12px;
+  background: linear-gradient(180deg, #14171d, #1a1f29);
+  box-shadow: var(--shadow);
+}
 
+.mensaje-pro span{
+  color: var(--purple);
+  font-weight:700;
+}
       <div class="content">
         <div class="import-info">
           <strong>Última actualización:</strong> automática en tu navegador.  
