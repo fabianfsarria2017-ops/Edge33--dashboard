@@ -510,114 +510,107 @@
         </section>
 
         <section id="registro" class="panel">
-          <div class="card">
-            <div class="card-title">Nueva operación</div>
-            <div class="form-grid">
-              <div class="field">
-                <label>Fecha</label>
-                <input id="date" type="date" />
-              </div>
-              <div class="field">
-                <label>Activo</label>
-                <input id="asset" type="text" placeholder="XAUUSD, BTC, NAS100..." />
-              </div>
-              <div class="field">
-                <label>Dirección</label>
-                <select id="direction">
-                  <option>Long</option>
-                  <option>Short</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Entrada</label>
-                <input id="entry" type="number" step="any" placeholder="0.00" />
-              </div>
-              <div class="field">
-                <label>Salida</label>
-                <input id="exit" type="number" step="any" placeholder="0.00" />
-              </div>
-              <div class="field">
-                <label>Stop Loss</label>
-                <input id="stop" type="number" step="any" placeholder="0.00" />
-              </div>
-              <div class="field">
-                <label>Take Profit</label>
-                <input id="target" type="number" step="any" placeholder="0.00" />
-              </div>
-              <div class="field">
-                <label>Tamaño Posición</label>
-                <input id="size" type="number" step="any" placeholder="1.00" />
-              </div>
-              <div class="field">
-                <label>Comisión</label>
-                <input id="commission" type="number" step="any" placeholder="0.00" />
-              </div>
-              <div class="field">
-                <label>Estrategia</label>
-                <!-- ===== NUEVOS CAMPOS ===== -->
+        <div class="card">
+  <div class="card-title">Nueva operación</div>
+</div>
+           <!-- 🟢 BLOQUE 1: TRADE -->
+<div class="card">
+  <div class="card-title">🟢 Trade</div>
+  <div class="form-grid">
 
-<div class="field">
-  <label>Hora apertura</label>
-  <input id="horaApertura" type="time">
+    <div class="field">
+      <label>Activo</label>
+      <input id="asset" type="text">
+    </div>
+
+    <div class="field">
+      <label>Dirección</label>
+      <select id="direction">
+        <option>Long</option>
+        <option>Short</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Entrada</label>
+      <input id="entry" type="number" step="any">
+    </div>
+
+    <div class="field">
+      <label>Salida</label>
+      <input id="exit" type="number" step="any">
+    </div>
+
+    <div class="field">
+      <label>Stop Loss</label>
+      <input id="stop" type="number" step="any">
+    </div>
+
+    <div class="field">
+      <label>Take Profit</label>
+      <input id="target" type="number" step="any">
+    </div>
+
+    <div class="field">
+      <label>Tamaño</label>
+      <input id="size" type="number" step="any">
+    </div>
+
+  </div>
 </div>
 
-<div class="field">
-  <label>Hora cierre</label>
-  <input id="horaCierre" type="time">
+
+<!-- 🟡 BLOQUE 2: EJECUCIÓN -->
+<div class="card">
+  <div class="card-title">🟡 Ejecución</div>
+  <div class="form-grid">
+
+    <div class="field">
+      <label>Hora apertura</label>
+      <input id="horaApertura" type="time">
+    </div>
+
+    <div class="field">
+      <label>Hora cierre</label>
+      <input id="horaCierre" type="time">
+    </div>
+
+    <div class="field">
+      <label>Duración</label>
+      <input id="duracion" type="text" readonly>
+    </div>
+
+  </div>
 </div>
 
-<div class="field">
-  <label>Duración</label>
-  <input id="duracion" disabled>
+
+<!-- 🔵 BLOQUE 3: CONTEXTO -->
+<div class="card">
+  <div class="card-title">🔵 Contexto</div>
+  <div class="form-grid">
+
+    <div class="field">
+      <label>Contexto</label>
+      <input id="contexto" type="text">
+    </div>
+
+    <div class="field">
+      <label>Noticias</label>
+      <input id="noticias" type="text">
+    </div>
+
+    <div class="field">
+      <label># Operaciones</label>
+      <input id="cantidadOperaciones" type="number">
+    </div>
+
+    <div class="field">
+      <label>Resultado en R</label>
+      <input id="resultadoR" type="number" step="any">
+    </div>
+
+  </div>
 </div>
-
-<div class="field">
-  <label>SL (pips)</label>
-  <input id="slPips" type="number">
-</div>
-
-<div class="field">
-  <label>TP (pips)</label>
-  <input id="tpPips" type="number">
-</div>
-
-<div class="field">
-  <label>Contexto</label>
-  <select id="contexto">
-    <option value="">Seleccionar</option>
-    <option value="rango">Rango</option>
-    <option value="tendencia">Tendencia</option>
-  </select>
-</div>
-
-<div class="field">
-  <label># Operaciones</label>
-  <input id="cantidadOperaciones" type="number">
-</div>
-
-<div class="field">
-  <label>Resultado en R</label>
-  <input id="resultadoR" type="number" step="0.1">
-</div>
-
-<div class="field">
-  <label>Noticias</label>
-  <select id="noticias">
-    <option value="">Seleccionar</option>
-    <option value="si">Sí</option>
-    <option value="no">No</option>
-  </select>
-</div>m
-                <input id="strategy" type="text" placeholder="Q33, Breakout, Liquidez..." />
-              </div>
-            </div>
-
-            <div class="field">
-              <label>Notas</label>
-              <textarea id="notes" placeholder="Qué viste, cómo te sentías, si seguiste el sistema, aprendizaje..."></textarea>
-            </div>
-
-            <div class="actions">
               <button class="primary" id="addBtn">+ Agregar operación</button>
               <button class="ghost" id="exportBtn">Exportar JSON</button>
               <button class="ghost" id="csvBtn">Exportar CSV</button>
