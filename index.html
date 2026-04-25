@@ -596,17 +596,21 @@
 
     <div class="field">
       <label>Noticias</label>
-      <input id="noticias" type="text">
+   <select id="noticias">
+  <option value="">Seleccionar</option>
+  <option value="si">Sí</option>
+  <option value="no">No</option>
+</select>
     </div>
 
     <div class="field">
       <label># Operaciones</label>
-      <input id="cantidadOperaciones" type="number">
+     <input id="cantidadOperaciones" type="number" min="1">
     </div>
 
     <div class="field">
       <label>Resultado en R</label>
-      <input id="resultadoR" type="number" step="any">
+      <input id="resultadoR" type="number" step="any" readonly>
     </div>
 
   </div>
