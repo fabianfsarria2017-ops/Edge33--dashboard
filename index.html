@@ -47,11 +47,13 @@
       align-items:center;
       gap:12px;
     }
-    .logo{
-      width:42px;height:42px;border-radius:12px;
-      background:radial-gradient(circle at 30% 30%, #33ffd6, #16b06c 55%, #0d7a51 100%);
-      box-shadow:0 0 25px rgba(30,234,138,.25), inset 0 0 12px rgba(255,255,255,.18);
-    }
+  .logo{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  object-fit:cover;
+  box-shadow:0 0 20px rgba(244,195,90,.25);
+}
     .brand h1{
       margin:0;
       font-size:28px;
@@ -105,12 +107,7 @@
       font-weight:800;
       line-height:1.1;
     }
-    .metric .sub{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:4px;
-    }
-    .green{color:var(--green)}
+ 
     .red{color:var(--red)}
     .gold{color:var(--gold)}
     .blue{color:var(--blue)}
@@ -240,7 +237,6 @@
       font-size:13px;
       color:var(--text);
     }
-
     .actions{
       display:flex;
       flex-wrap:wrap;
@@ -360,8 +356,7 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <div class="logo"></div>
-        <div>
+<img src="logo.png?v=1" alt="Q33 Logo" class="logo">
           <h1>Edge33</h1>
           <small>Bitácora de trading y métricas del sistema</small>
         </div>
