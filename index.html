@@ -1143,14 +1143,21 @@ document.querySelectorAll(".tab").forEach(btn=>{
   });
 });
 
-$("focusTrade").addEventListener("click", ()=>{
-  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  document.querySelector('[data-tab="registro"]').classList.add("active");
-  $("registro").classList.add("active");
-  document.querySelector(".top-header h2").textContent = "Registro";
-  setTimeout(()=>$("asset").focus(),100);
-});
+const focusBtn = document.getElementById("focusTrade");
+
+if (focusBtn) {
+  focusBtn.addEventListener("click", () => {
+
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+
+    document.querySelector('[data-tab="registro"]').classList.add("active");
+    document.getElementById("registro").classList.add("active");
+
+    setTimeout(() => document.getElementById("asset").focus(), 100);
+
+  });
+}
 
 refreshAll();
 </script>
