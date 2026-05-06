@@ -1675,6 +1675,12 @@ if(savedAccount) $("accountSize").value = savedAccount;
 $("accountSize").addEventListener("input", ()=>{
   localStorage.setItem(ACCOUNT_KEY, $("accountSize").value);
 /* EDGE33 — Fix botones calculadora */
+
+$("accountSize").addEventListener("input", ()=>{
+  localStorage.setItem(ACCOUNT_KEY, $("accountSize").value);
+  refreshAll();
+});
+  /* EDGE33 — Fix botones calculadora */
 document.querySelectorAll(".preset-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const preset = btn.dataset.preset;
