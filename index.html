@@ -1535,7 +1535,7 @@
             <div style="margin-bottom:10px;">
               <label style="display:block;margin-bottom:8px;">Presets rápidos</label>
          <div class="calc-presets">
-  <button class="preset-btn active" data-preset="XAUUSD" onclick="applySymbolPreset('XAUUSD')">🥇 XAUUSD</button>
+  <button class="preset-btn active" data-preset="XAUUSD" >🥇 XAUUSD</button>
   <button class="preset-btn" data-preset="NAS100"  onclick="applySymbolPreset('NAS100')">📊 NAS100</button>
   <button class="preset-btn" data-preset="US30"    onclick="applySymbolPreset('US30')">📈 US30</button>
   <button class="preset-btn" data-preset="US500"   onclick="applySymbolPreset('US500')">🇺🇸 US500</button>
@@ -1577,7 +1577,7 @@
               </div>
             </div>
 
-            <button class="btn-calc" onclick="calculateAutoLot()">⚡ Calcular lotaje</button>
+            <button class="btn-calc" id="calcBtn">⚡ Calcular lotaje</button>
           </div>
 
           <!-- Nota educativa -->
@@ -1674,6 +1674,22 @@ if(savedAccount) $("accountSize").value = savedAccount;
 
 $("accountSize").addEventListener("input", ()=>{
   localStorage.setItem(ACCOUNT_KEY, $("accountSize").value);
+/* EDGE33 — Fix botones calculadora */
+document.querySelectorAll(".preset-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const preset = btn.dataset.preset;
+    applySymbolPreset(preset);
+  });
+});
+
+const calcBtn = $("calcBtn");
+if (calcBtn) {
+  calcBtn.addEventListener("click", calculateAutoLot);
+}
+
+
+
+  
   refreshAll();
 });
 
