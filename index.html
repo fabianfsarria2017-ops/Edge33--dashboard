@@ -1535,16 +1535,14 @@
             <div style="margin-bottom:10px;">
               <label style="display:block;margin-bottom:8px;">Presets rápidos</label>
          <div class="calc-presets">
-  <button class="preset-btn active" data-preset="XAUUSD" >🥇 XAUUSD</button>
-  <button class="preset-btn" data-preset="NAS100"  onclick="applySymbolPreset('NAS100')">📊 NAS100</button>
-  <button class="preset-btn" data-preset="US30"    onclick="applySymbolPreset('US30')">📈 US30</button>
-  <button class="preset-btn" data-preset="US500"   onclick="applySymbolPreset('US500')">🇺🇸 US500</button>
-  <button class="preset-btn" data-preset="BTCUSD"  onclick="applySymbolPreset('BTCUSD')">₿ BTCUSD</button>
-  <button class="preset-btn" data-preset="EURUSD"  onclick="applySymbolPreset('EURUSD')">💶 EURUSD</button>
-</div>
 
-            <div class="divider"></div>
-
+<button class="preset-btn active" data-preset="XAUUSD">🥇 XAUUSD</button>
+<button class="preset-btn" data-preset="NAS100">📊 NAS100</button>
+<button class="preset-btn" data-preset="US30">📈 US30</button>
+<button class="preset-btn" data-preset="US500">🇺🇸 US500</button>
+<button class="preset-btn" data-preset="BTCUSD">₿ BTCUSD</button>
+<button class="preset-btn" data-preset="EURUSD">💶 EURUSD</button>
+            </div>
             <!-- Campos del formulario -->
             <div class="calc-form-grid">
               <div class="calc-field">
@@ -1674,12 +1672,21 @@ if(savedAccount) $("accountSize").value = savedAccount;
 
 $("accountSize").addEventListener("input", ()=>{
   localStorage.setItem(ACCOUNT_KEY, $("accountSize").value);
-/* EDGE33 — Fix botones calculadora */
-
-$("accountSize").addEventListener("input", ()=>{
-  localStorage.setItem(ACCOUNT_KEY, $("accountSize").value);
   refreshAll();
 });
+
+/* EDGE33 — Fix botones calculadora */
+document.querySelectorAll(".preset-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const preset = btn.dataset.preset;
+    applySymbolPreset(preset);
+  });
+});
+
+const calcBtn = $("calcBtn");
+if (calcBtn) {
+  calcBtn.addEventListener("click", calculateAutoLot);
+}
   /* EDGE33 — Fix botones calculadora */
 document.querySelectorAll(".preset-btn").forEach(btn => {
   btn.addEventListener("click", () => {
