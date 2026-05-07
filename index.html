@@ -1539,6 +1539,9 @@
                 <button class="preset-btn" data-preset="NAS100" onclick="applySymbolPreset('NAS100')">📊 NAS100</button>
                 <button class="preset-btn" data-preset="BTCUSD" onclick="applySymbolPreset('BTCUSD')">₿ BTCUSD</button>
                 <button class="preset-btn" data-preset="EURUSD" onclick="applySymbolPreset('EURUSD')">💶 EURUSD</button>
+                <button class="preset-btn" data-preset="US30"   onclick="applySymbolPreset('US30')">📈 US30</button>
+<button class="preset-btn" data-preset="US500"  onclick="applySymbolPreset('US500')">🇺🇸 US500</button>
+<button class="preset-btn" data-preset="BTCUSD" onclick="applySymbolPreset('BTCUSD')">₿ BTCUSD</button>
               </div>
             </div>
 
@@ -2325,11 +2328,22 @@ const SYMBOL_PRESETS = {
     punto:     1,
     valorPunto: 1,
     loteMin:   0.01,
-  },
-  EURUSD: {
+EURUSD: {
     symbol:    "EURUSD",
     punto:     0.0001,
     valorPunto: 10,
+    loteMin:   0.01,
+  },
+  US30: {
+    symbol:    "US30",
+    punto:     1,
+    valorPunto: 5,
+    loteMin:   0.01,
+  },
+  US500: {
+    symbol:    "US500",
+    punto:     0.1,
+    valorPunto: 5,
     loteMin:   0.01,
   },
 };
