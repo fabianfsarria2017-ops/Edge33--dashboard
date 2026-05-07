@@ -2745,8 +2745,20 @@ const SYMBOL_PRESETS = {
   NAS100: { symbol:"NAS100", punto:1,    valorPunto:1, loteMin:0.1  },
   BTCUSD: { symbol:"BTCUSD", punto:1,    valorPunto:1, loteMin:0.01 },
   EURUSD: { symbol:"EURUSD", punto:0.0001,valorPunto:10,loteMin:0.01},
-};
+US30: {
+  symbol:"US30",
+  punto:1,
+  valorPunto:1,
+  loteMin:0.1
+},
 
+SP500: {
+  symbol:"SP500",
+  punto:0.1,
+  valorPunto:1,
+  loteMin:0.1
+},
+}
 function applySymbolPreset(key) {
   const preset = SYMBOL_PRESETS[key];
   if (!preset) return;
